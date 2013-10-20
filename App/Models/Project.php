@@ -106,21 +106,11 @@ class Project extends \Model
 
     public function toArray()
     {
-
-        $deadlines = array();
-
-        foreach ($this->deadlines as $deadline)
-        {
-            $deadlines[] = $deadline->toArray();
-        }
-
-
         $array = array(
             "id" => $this->id,
             "name" => $this->name,
             "description" => $this->description,
             "owner" => $this->getOwner() != null ? $this->getOwner()->toArray() : null,
-            "deadlines" => $deadlines
         );
 
         $data = $this->getData();
