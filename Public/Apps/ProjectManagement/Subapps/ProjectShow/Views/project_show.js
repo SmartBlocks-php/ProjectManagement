@@ -1,13 +1,15 @@
 define([
     'jquery',
     'underscore',
-    'backbone'
-], function ($, _, Backbone) {
+    'backbone',
+    'text!../Templates/project_show.html'
+], function ($, _, Backbone, project_show_tpl) {
     var View = Backbone.View.extend({
         tagName: "div",
-        className: "a_class",
-        initialize: function () {
+        className: "project_show",
+        initialize: function (obj) {
             var base = this;
+            base.project = obj.model;
         },
         init: function () {
             var base = this;
@@ -18,8 +20,10 @@ define([
         render: function () {
             var base = this;
 
-            //var template = _.template(SomeTemplate, {});
-            //base.$el.html(template);
+            var template = _.template(project_show_tpl, {
+                project: base.project
+            });
+            base.$el.html(template);
         },
         registerEvents: function () {
             var base = this;
