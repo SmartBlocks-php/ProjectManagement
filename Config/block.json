@@ -2,7 +2,35 @@
     "name": "ProjectManagement",
     "token": "project_management",
     "types": [
+        {
+            "model_name": "Project",
+            "collection_name": "Projects",
+            "plural": "projects",
+            "ws_origin": "/ProjectManagement/Projects",
+            "model_location": "ProjectManagement/Models/Project",
+            "collection_location": "ProjectManagement/Collections/Projects"
+        },
+        {
+            "model_name": "Deadline",
+            "collection_name": "Deadlines",
+            "plural": "deadlines",
+            "ws_origin": "/ProjectManagement/Deadline",
+            "model_location": "ProjectManagement/Models/Deadline",
+            "collection_location": "ProjectManagement/Collections/Deadlines"
+        }
     ],
     "apps": [
+        {
+            "name": "ProjectManagement",
+            "token": "ProjectManagement",
+            "description": "Manage all your projects",
+            "link": "#ProjectManagement",
+            "logo_url": "/images/icons/user.png",
+            "block_token": "project_management",
+            "entry_point": "launch_pm",
+            "routing": {
+
+            }
+        }
     ]
 }

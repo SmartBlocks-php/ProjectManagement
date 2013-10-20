@@ -1,0 +1,70 @@
+.project_thumb {
+  display: block;
+  background: #eae7e2;
+  width: 290px;
+  height: 140px;
+  float: left;
+  margin: 5px;
+
+  > div {
+    padding: 10px;
+
+    .project_name_container {
+      font-size: 20px;
+      float: left;
+      .name_display {
+        .change_name_button {
+          display: block;
+          padding-right: 20px;
+          text-decoration: none;
+          font-weight: bold;
+          color: darkgray;
+          .icon {
+            display: block;
+            float: right;
+            width: 15px;
+            height: 15px;
+            overflow: hidden;
+            background: url(/ProjectManagement/Resources/pencil.png) 0 0;
+
+          }
+          &:hover {
+            .icon {
+              background: no-repeat url(/ProjectManagement/Resources/pencil.png) 0 -15px;
+            }
+          }
+
+        }
+      }
+      .name_edition {
+        display: none;
+      }
+      &.edition {
+        .name_display {
+          display: none;
+        }
+        .name_edition {
+          display: block;
+        }
+      }
+    }
+
+  }
+
+  &.plus {
+    font-size: 50px;
+    color: black;
+    text-align: center;
+    line-height: 150px;
+    text-decoration: none;
+    font-weight: bold;
+    color: white;
+    &:hover {
+      background: #f1eee8;
+
+      line-height: 148px;
+      color: gray;
+    }
+  }
+
+}

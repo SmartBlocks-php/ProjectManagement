@@ -1,0 +1,68 @@
+.project_management {
+  height: 100%;
+  .pm_header {
+
+    height: 50px;
+    background: rgba(255,255,255,0.5);
+    font-size: 30px;
+    line-height: 50px;
+  }
+
+  .subapp_container {
+    height: ~"calc(100% - 50px)";
+  @import "../Subapps/ProjectIndex/Style/projects_index";
+  @import "../Subapps/ProjectShow/Style/project_show";
+
+  }
+
+  .pagination_container {
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    left: 0px;
+    height: 15px;
+    background: rgba(193, 189, 189, 0.51);
+    text-align: center;
+    margin: auto;
+
+    &.top {
+      top: 0px;
+      bottom: auto;
+    }
+
+    .pagination {
+      width: -moz-fit-content;
+      width: -webkit-fit-content;
+      width: fit-content;
+      height: 100%;
+      margin: auto;
+      a {
+        display: block;
+        float: left;
+        width: 20px;
+        height: 100%;
+        div {
+          border-radius: 5px;
+          margin: auto;
+          margin-top: ~"calc(50% - 5px)";
+          background: white;
+          box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.3);
+          transition: all 200ms;
+          width: 5px;
+          height: 5px;
+
+        }
+
+        &:hover, &.selected {
+          div {
+            width: 10px;
+            height: 10px;
+            margin-top: ~"calc(50% - 8px)";
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 1);
+          }
+        }
+      }
+    }
+
+  }
+}
