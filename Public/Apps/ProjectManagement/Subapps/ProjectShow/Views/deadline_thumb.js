@@ -16,6 +16,8 @@ define([
 
             base.render();
             base.registerEvents();
+            base.$el.attr('data-id', base.deadline.get('id'));
+            base.$el.attr('data-index', SmartBlocks.Blocks.ProjectManagement.Data.deadlines.models.indexOf(base.deadline));
         },
         render: function () {
             var base = this;

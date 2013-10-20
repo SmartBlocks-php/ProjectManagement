@@ -1,8 +1,14 @@
 .deadline_thumb {
+  cursor: pointer;
   height: 30px;
   border-bottom: 1px #d3d3d3 solid;
-  line-height:30px;
+  line-height: 30px;
+  transition: all 100ms;
+  padding-left: 5px;
 
+  &.selected {
+    background: rgba(255,255,255,0.5);
+  }
 
   .deadline_name {
     font-weight: bold;
@@ -13,16 +19,25 @@
     color: gray;
   }
 
-
   .delete_button {
     width: 15px;
     height: 15px;
     overflow: hidden;
     margin-top: 8px;
+    margin-right: 5px;
     float: right;
     background: url(/ProjectManagement/Resources/cross.png);
     &:hover {
       background: url(/ProjectManagement/Resources/cross.png) 0 -15px;
+    }
+  }
+
+  &.plus {
+    input {
+      padding: 5px;
+      width: 130px;
+      border: none;
+      background: rgba(231, 229, 230, 0.49);
     }
   }
 }
