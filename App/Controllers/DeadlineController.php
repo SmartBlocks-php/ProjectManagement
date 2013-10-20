@@ -8,7 +8,7 @@
 
 namespace ProjectManagement;
 
-class DeadlinesController extends \Controller
+class DeadlineController extends \Controller
 {
     public function before_filter()
     {
@@ -21,7 +21,7 @@ class DeadlinesController extends \Controller
         $em = \Model::getEntityManager();
         $qb = $em->createQueryBuilder();
 
-        $qb->select('e')->from('\DeadlineManagement\Deadline', 'e')->where('e.owner = :user')
+        $qb->select('e')->from('\ProjectManagement\Deadline', 'e')->where('e.owner = :user')
             ->setParameter('user', \User::current_user());
 
         $results = $qb->getQuery()->getResult();
@@ -101,7 +101,7 @@ class DeadlinesController extends \Controller
     public function create()
     {
         $data = $this->getRequestData();
-        $this->return_json($this->createOrUpdate($data));
+        $this->return_json(\ProjectManagement\Business\Deadlines::createOrUpdate($data)->toArray());
     }
 
     public function update($data = array())

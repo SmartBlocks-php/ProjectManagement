@@ -58,6 +58,30 @@ class ProjectsController extends \Controller
         unset($data["owner"]);
         unset($data["id"]);
 
+        if (isset($data["deadlines"]) && is_array($data["deadlines"]))
+        {
+            $project->save();
+            $project->getDeadlines()->clear();
+            foreach ($data["deadlines"] as $deadline_a)
+            {
+                if (isset($deadline_a["id"]))
+                    $deadline = \TaskManagement\Task::find($deadline_a["id"]);
+                if (isset($deadline) && is_object($deadline))
+                {
+                    $project->getDeadlines()->add($deadline);
+                }
+                else
+                {
+                    $deadline = \ProjectManagement\Business\Deadlines::createOrUpdate($deadline_a);
+                    $deadline->setProject($project);
+                    $deadline->save();
+                }
+                $project->getDeadlines()->add($deadline);
+            }
+        }
+        unset($data["deadlines"]);
+
+
         $event_data = $data;
         $data_array = $project->getData();
 
@@ -77,6 +101,10 @@ class ProjectsController extends \Controller
             }
         }
         $project->setData($data_array);
+
+
+
+
         $project->save();
 
         return $project->toArray();

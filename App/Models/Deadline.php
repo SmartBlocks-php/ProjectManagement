@@ -41,7 +41,7 @@ class Deadline extends \Model
     private $data;
 
     /**
-     * @ManyToOne(targetEntity="project", reversedBy="deadlines")
+     * @ManyToOne(targetEntity="Project")
      */
     private $project;
 
@@ -138,7 +138,6 @@ class Deadline extends \Model
         {
             $tasks[] = $task->toArray();
         }
-
         $array = array(
             "id" => $this->id,
             "name" => $this->name,
