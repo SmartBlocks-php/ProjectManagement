@@ -8,17 +8,27 @@
   padding: 20px;
   margin-top: 50px;
 
-  .project_name_container {
+  .project_name {
+    height: 30px;
+    line-height: 30px;
+    font-size: 20px;
+    float: left;
+
+  }
+  .description_container  {
+    float: left;
+    font-style: italic;
+    color: gray;
+    line-height: 30px;
     height: 30px;
   }
-
   .contents {
+    clear: both;
     height: ~"calc(100% - 30px)";
 
     > div {
       height: 50%;
     }
-
   }
-
+  @import "./deadline_thumb";
 }
