@@ -52,8 +52,8 @@ define([
                     deadline.setDate(date);
                     base.$el.find('.result_date').html('');
                     base.$el.find('.result_date').html('');
-                    base.$el.find('.new_deadline_time').html('');
-                    base.$el.find('.new_deadline_name').html('');
+                    base.$el.find('.new_deadline_time').val('');
+                    base.$el.find('.new_deadline_name').val('');
                     deadline.set('project', base.project);
                     SmartBlocks.Blocks.ProjectManagement.Data.deadlines.add(deadline);
                     deadline.save();
@@ -69,8 +69,8 @@ define([
                     deadline.set('name', base.$el.find('.new_deadline_name').val());
                     deadline.setDate(date);
                     base.$el.find('.result_date').html('');
-                    base.$el.find('.new_deadline_time').html('');
-                    base.$el.find('.new_deadline_name').html('');
+                    base.$el.find('.new_deadline_time').val('');
+                    base.$el.find('.new_deadline_name').val('');
                     deadline.set('project', base.project);
                     SmartBlocks.Blocks.ProjectManagement.Data.deadlines.add(deadline);
                     deadline.save();
@@ -78,6 +78,12 @@ define([
             });
 
             SmartBlocks.Blocks.ProjectManagement.Data.deadlines.on("add", function (deadline) {
+                if (deadline.get('project').id == base.project.get('id')) {
+                    base.renderDeadlines();
+                }
+            });
+
+            SmartBlocks.Blocks.ProjectManagement.Data.deadlines.on("remove", function (deadline) {
                 if (deadline.get('project').id == base.project.get('id')) {
                     base.renderDeadlines();
                 }

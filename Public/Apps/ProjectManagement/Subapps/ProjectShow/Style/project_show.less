@@ -15,6 +15,10 @@
     float: left;
 
   }
+
+  .back_to_index_button {
+    float: right;
+  }
   .description_container  {
     float: left;
     font-style: italic;
@@ -25,6 +29,18 @@
   .contents {
     clear: both;
     height: ~"calc(100% - 30px)";
+
+    .add_deadline_button {
+      width: 15px;
+      height: 15px;
+      overflow: hidden;
+      display: block;
+      float: right;
+      background: url(/ProjectManagement/Resources/plus.png) 0 0;
+      &:hover {
+        background: url(/ProjectManagement/Resources/plus.png) 0 -15px;
+      }
+    }
 
     > div {
       height: 50%;

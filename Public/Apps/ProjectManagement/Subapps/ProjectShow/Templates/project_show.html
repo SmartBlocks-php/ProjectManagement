@@ -1,10 +1,12 @@
 <div class="project_name_container">
+
     <div class="project_name"><%= project.get('name') %></div>
     <div>
         <span class="description_container pure-u-1-2">
             <%= project.get('description') %>
         </span>
     </div>
+    <a href="#ProjectManagement" class="back_to_index_button pure-button">Back to index</a>
 </div>
 <div class="contents pure-g">
     <div class="deadlines_container pure-u-2-3">
@@ -15,7 +17,7 @@
             <input type="text" class="new_deadline_name" placeholder="New deadline name" />
             <input type="text" class="new_deadline_time" placeholder="Enter a date" />
             <span class="result_date"></span>
-            <a href="javascript:void(0);" class="add_deadline_button" />
+            <a href="javascript:void(0);" class="add_deadline_button"></a>
         </div>
     </div>
     <div class="tasks_container pure-u-1-3">

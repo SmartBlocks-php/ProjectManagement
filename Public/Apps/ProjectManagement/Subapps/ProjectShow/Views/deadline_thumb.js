@@ -27,6 +27,16 @@ define([
         },
         registerEvents: function () {
             var base = this;
+
+            base.$el.delegate('.delete_button', 'click', function () {
+                if (confirm("Are you sure you want to delete this deadline ?")) {
+
+                    base.$el.slideUp(200, function () {
+                        base.$el.remove();
+                        base.deadline.destroy();
+                    });
+                }
+            });
         }
     });
 
