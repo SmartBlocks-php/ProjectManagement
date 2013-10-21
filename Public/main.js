@@ -1,7 +1,7 @@
 define([
     'jquery',
     'underscore',
-    'Backbone',
+    'backbone',
     './Apps/ProjectManagement/Views/project_management'
 ], function ($, _, Backbone, ProjectManagementView) {
     var main = {
