@@ -35,7 +35,7 @@ define([
             base.$el.find('.deadlines').html('');
             var deadlines = base.project.getDeadlines();
             for (var k in deadlines) {
-                var deadline_thumb = new DeadlineThumb({model : deadlines[k]});
+                var deadline_thumb = new DeadlineThumb({model: deadlines[k]});
                 base.$el.find('.deadlines').append(deadline_thumb.$el);
                 deadline_thumb.init();
 
@@ -94,14 +94,13 @@ define([
 
             base.$el.delegate('.deadline_thumb', 'click', function () {
                 var id = $(this).attr("data-id");
-                if (id) {
-                    base.selected_deadline = SmartBlocks.Blocks.ProjectManagement.Data.deadlines.get(id);
-                    if (base.selected_deadline) {
-                        base.$el.find(".deadline_thumb.selected").removeClass("selected");
-                        $(this).addClass("selected");
-                        base.events.trigger("selected_deadline", base.selected_deadline);
+                base.selected_deadline = SmartBlocks.Blocks.ProjectManagement.Data.deadlines.get(id);
 
-                    }
+                if (base.selected_deadline) {
+                    base.$el.find(".deadline_thumb.selected").removeClass("selected");
+                    $(this).addClass("selected");
+                    base.events.trigger("selected_deadline", base.selected_deadline);
+
                 }
 
             });

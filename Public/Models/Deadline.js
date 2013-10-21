@@ -41,6 +41,12 @@ define([
                 delete base.get("tasks")[index];
             }
             return index != -1;
+        },
+        getProject: function () {
+            var base = this;
+            console.log(base.attributes);
+            var project = SmartBlocks.Blocks.ProjectManagement.Data.projects.get(base.get("project").id);
+            return project;
         }
     });
     return Model;
