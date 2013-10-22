@@ -145,7 +145,7 @@ class Deadline extends \Model
             "owner" => $this->getOwner() != null ? $this->getOwner()->toArray() : null,
             "date" => $this->getDate()->format('Y-m-d\TH:i:s.uO'),
             "tasks" => $tasks,
-            "project" => $this->project->toArray()
+            "project" => is_object($this->project) ? $this->project->toArray() : null
         );
 
         $data = $this->getData();

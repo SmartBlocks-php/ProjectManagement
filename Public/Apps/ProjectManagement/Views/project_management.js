@@ -26,17 +26,18 @@ define([
                 "index": function () {
                     base.launchView(ProjectIndexView);
                 },
-                "project/:id": function (id) {
-                    base.launchView(ProjectShowView);
+                "projects/:id": function (id) {
+                    var project = SmartBlocks.Blocks.ProjectManagement.Data.projects.get(id);
+                    base.launchView(ProjectShowView, {model: project});
                 }
             })
         },
         launchView: function (view) {
             var base = this;
-            var instance = new view();
+            var instance = new view(arguments[1]);
             var args = [];
             if (arguments.length > 1) {
-                for (var i = 1; i < arguments.length; i++) {
+                for (var i = 2; i < arguments.length; i++) {
                     args.push(arguments[i]);
                 }
             }

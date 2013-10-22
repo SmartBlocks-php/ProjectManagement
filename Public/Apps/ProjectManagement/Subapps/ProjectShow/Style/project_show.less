@@ -1,0 +1,56 @@
+.project_show {
+  position: relative;
+  height: 600px;
+  width: 900px;
+  margin: auto;
+//  background: white;
+//  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  margin-top: 50px;
+
+  .project_name {
+    height: 30px;
+    line-height: 30px;
+    font-size: 20px;
+    float: left;
+
+  }
+
+  .back_to_index_button {
+    float: right;
+  }
+  .description_container  {
+    float: left;
+    font-style: italic;
+    color: gray;
+    line-height: 30px;
+    height: 30px;
+  }
+  .contents {
+    clear: both;
+    height: ~"calc(100% - 30px)";
+
+    .add_deadline_button {
+      width: 15px;
+      height: 15px;
+      overflow: hidden;
+      display: block;
+      float: right;
+      margin-top: 8px;
+      background: url(/ProjectManagement/Resources/plus.png) 0 0;
+      &:hover {
+        background: url(/ProjectManagement/Resources/plus.png) 0 -15px;
+      }
+    }
+
+    > div {
+      height: 50%;
+      > div {
+        background: rgba(255,255,255,0.5);
+        padding-left: 10px;
+        padding-right: 10px;
+      }
+    }
+  }
+  @import "./deadline_thumb";
+}

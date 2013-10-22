@@ -64,6 +64,16 @@ class Deadlines
 
         }
 
+        if (isset($data["project"]))
+        {
+            $project = \ProjectManagement\Project::find($data["project"]["id"]);
+            if (is_object($project))
+            {
+                $deadline->setProject($project);
+            }
+
+        }
+
         foreach ($data_array as $key => $d)
         {
             if (!isset($event_data[$key]))
