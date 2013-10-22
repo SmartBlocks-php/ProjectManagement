@@ -12,7 +12,7 @@ define([
         initialize: function () {
             var base = this;
             base.current_page = 1;
-            base.page_size = 5;
+            base.page_size = 11;
             base.page_count = 0;
         },
         init: function () {

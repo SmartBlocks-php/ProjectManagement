@@ -9,7 +9,13 @@
 
     </div>
     <div class="clearer"></div>
-    <div>
-        <%= project.getDeadlines().length %> deadlines.
+    <div class="deadlines_count">
+        <span class="number"><%= project.getDeadlines().length %></span> deadlines.
+    </div>
+    <div class="tasks_count">
+         <span class="number"><%= project.getTasks().length %></span> tasks.
+    </div>
+    <div class="link">
+        <a href="#ProjectManagement/projects/<%= project.get('id') %>">View</a>
     </div>
 </div>

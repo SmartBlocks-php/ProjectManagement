@@ -10,9 +10,21 @@ define([
         getDeadlines: function () {
             var base = this;
             var deadlines = SmartBlocks.Blocks.ProjectManagement.Data.deadlines.filter(function (deadline){
-                return deadline.get("project").id == base.get("id");
+                return deadline.get("project") && deadline.get("project").id == base.get("id");
             });
             return deadlines;
+        },
+        getTasks: function () {
+            var base = this;
+            var tasks = [];
+            var deadlines = base.getDeadlines();
+            for (var k in deadlines) {
+                var d_tasks = deadlines[k].getTasks();
+                for (var i in d_tasks) {
+                    tasks.push(d_tasks[i]);
+                }
+            }
+            return tasks;
         }
     });
     return Model;
