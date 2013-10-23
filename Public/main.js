@@ -22,10 +22,13 @@ define([
                 var value = "";
                 if (task.get("deadline_id")) {
                     var deadline = SmartBlocks.Blocks.ProjectManagement.Data.deadlines.get(task.get("deadline_id"));
-                    var project = deadline.getProject();
-                    if (project) {
-                        value += "Project : " + project.get('name');
+                    if (deadline) {
+                        var project = deadline.getProject();
+                        if (project) {
+                            value += "Project : " + project.get('name');
+                        }
                     }
+
                 }
                 return value;
             });
