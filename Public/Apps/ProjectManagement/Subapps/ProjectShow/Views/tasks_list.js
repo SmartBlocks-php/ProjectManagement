@@ -73,6 +73,12 @@ define([
                     base.renderTasks();
                 }
             });
+
+//            SmartBlocks.Blocks.TaskManagement.Data.tasks.on("remove", function (task) {
+//                if (task.get("deadline_id") && task.get("deadline_id") == base.deadline.get('id')) {
+//                    base.renderTasks();
+//                }
+//            });
         }
     });
 

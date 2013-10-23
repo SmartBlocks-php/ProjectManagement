@@ -25,6 +25,23 @@ define([
                 }
             }
             return tasks;
+        },
+        save: function(attributes, options) {
+            attributes || (attributes = {});
+            attributes['headers'] = {'If-Match': this.get("rev")};
+            Backbone.Model.prototype.save.call(this, attributes, options);
+        },
+        destroy: function(attributes, options) {
+
+            var base = this;
+            var deadlines = base.getDeadlines();
+            for (var j in deadlines) {
+                deadlines[j].destroy();
+            }
+
+            attributes || (attributes = {});
+            attributes['headers'] = {'If-Match': this.get("rev")};
+            Backbone.Model.prototype.destroy.call(this, attributes, options);
         }
     });
     return Model;

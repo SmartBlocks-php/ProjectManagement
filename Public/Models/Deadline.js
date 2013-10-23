@@ -47,6 +47,23 @@ define([
             console.log(base.attributes);
             var project = SmartBlocks.Blocks.ProjectManagement.Data.projects.get(base.get("project").id);
             return project;
+        },
+        save: function(attributes, options) {
+            attributes || (attributes = {});
+            attributes['headers'] = {'If-Match': this.get("rev")};
+            Backbone.Model.prototype.save.call(this, attributes, options);
+        },
+        destroy: function(attributes, options) {
+
+            var base = this;
+            var tasks = base.getTasks();
+            for (var j in tasks) {
+                tasks[j].destroy();
+            }
+
+            attributes || (attributes = {});
+            attributes['headers'] = {'If-Match': this.get("rev")};
+            Backbone.Model.prototype.destroy.call(this, attributes, options);
         }
     });
     return Model;
