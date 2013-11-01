@@ -1,6 +1,7 @@
 {
     "name": "ProjectManagement",
     "token": "project_management",
+    "restricted_to": "user",
     "types": [
         {
             "model_name": "Project",
