@@ -5,8 +5,9 @@ define([
     'text!../Templates/project_show.html',
     './deadline_thumb',
     'datejs',
-    './tasks_list'
-], function ($, _, Backbone, project_show_tpl, DeadlineThumb, datejs, TasksListView) {
+    './tasks_list',
+    './timeline'
+], function ($, _, Backbone, project_show_tpl, DeadlineThumb, datejs, TasksListView, TimelineView) {
     var View = Backbone.View.extend({
         tagName: "div",
         className: "project_show",
@@ -29,6 +30,12 @@ define([
             });
             base.$el.html(template);
             base.renderDeadlines();
+
+            var timeline = new TimelineView({
+                model: base.project
+            });
+            base.$el.find(".project_dashboard").html(timeline.$el);
+            timeline.init();
         },
         renderDeadlines: function () {
             var base = this;
@@ -40,6 +47,9 @@ define([
                 deadline_thumb.init();
 
             }
+
+//            $(base.$el.find('.deadlines')[0]).click();
+
 
         },
         registerEvents: function () {
@@ -100,7 +110,6 @@ define([
                     base.$el.find(".deadline_thumb.selected").removeClass("selected");
                     $(this).addClass("selected");
                     base.events.trigger("selected_deadline", base.selected_deadline);
-
                 }
 
             });

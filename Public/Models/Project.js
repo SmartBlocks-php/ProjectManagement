@@ -9,7 +9,7 @@ define([
         urlRoot: "/ProjectManagement/Projects",
         getDeadlines: function () {
             var base = this;
-            var deadlines = SmartBlocks.Blocks.ProjectManagement.Data.deadlines.filter(function (deadline){
+            var deadlines = SmartBlocks.Blocks.ProjectManagement.Data.deadlines.filter(function (deadline) {
                 return deadline.get("project") && deadline.get("project").id == base.get("id");
             });
             return deadlines;
@@ -26,12 +26,12 @@ define([
             }
             return tasks;
         },
-        save: function(attributes, options) {
+        save: function (attributes, options) {
             attributes || (attributes = {});
             attributes['headers'] = {'If-Match': this.get("rev")};
             Backbone.Model.prototype.save.call(this, attributes, options);
         },
-        destroy: function(attributes, options) {
+        destroy: function (attributes, options) {
 
             var base = this;
             var deadlines = base.getDeadlines();
@@ -42,6 +42,24 @@ define([
             attributes || (attributes = {});
             attributes['headers'] = {'If-Match': this.get("rev")};
             Backbone.Model.prototype.destroy.call(this, attributes, options);
+        },
+        getTimeInfo: function (start, end) {
+            var base = this;
+            var tasks = base.getTasks();
+            var time_info = {
+                total: 0,
+                left: 0,
+                done: 0
+            };
+
+            for (var k in tasks) {
+                var task = tasks[k];
+                time_info.total = task.getDuration(start, end);
+                time_info.left = task.getLeftDuration(start, end);
+                time_info.done = task.getDoneDuration(start, end);
+            }
+
+            return time_info;
         }
     });
     return Model;
