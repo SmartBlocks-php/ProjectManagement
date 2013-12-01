@@ -20,7 +20,7 @@ define([
             var base = this;
 
             base.render();
-            base.registerEvents();
+
         },
         render: function () {
             var base = this;
@@ -29,13 +29,13 @@ define([
                 project: base.project
             });
             base.$el.html(template);
+            base.registerEvents();
             base.renderDeadlines();
 
-            var timeline = new TimelineView({
-                model: base.project
-            });
+            var timeline = new TimelineView();
             base.$el.find(".project_dashboard").html(timeline.$el);
-            timeline.init();
+            timeline.init(base.project.getTasks());
+            base.timeline = timeline;
         },
         renderDeadlines: function () {
             var base = this;
@@ -45,12 +45,7 @@ define([
                 var deadline_thumb = new DeadlineThumb({model: deadlines[k]});
                 base.$el.find('.deadlines').append(deadline_thumb.$el);
                 deadline_thumb.init();
-
             }
-
-//            $(base.$el.find('.deadlines')[0]).click();
-
-
         },
         registerEvents: function () {
             var base = this;
@@ -111,13 +106,26 @@ define([
                     $(this).addClass("selected");
                     base.events.trigger("selected_deadline", base.selected_deadline);
                 }
+                base.timeline.setTasks(base.selected_deadline.getTasks());
+
 
             });
 
             base.events.on('selected_deadline', function () {
-                var tasks_list_view = new TasksListView({model: base.selected_deadline});
-                base.$el.find(".tasks_list_container").html(tasks_list_view.$el);
-                tasks_list_view.init();
+                if (base.selected_deadline) {
+                    var tasks_list_view = new TasksListView({model: base.selected_deadline});
+                    base.$el.find(".tasks_list_container").html(tasks_list_view.$el);
+                    tasks_list_view.init();
+                } else {
+                    base.$el.find(".tasks_list_container").html("");
+                }
+            });
+
+            base.$el.delegate('.deadline_thumb.selected', 'click', function () {
+                $(this).removeClass("selected");
+                base.selected_deadline = undefined;
+                base.events.trigger("selected_deadline", base.selected_deadline);
+                base.timeline.setTasks(base.project.getTasks());
             });
 
 
