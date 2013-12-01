@@ -17,6 +17,7 @@ define([
 
             base.render();
             base.registerEvents();
+            base.$el.attr("data-id", base.model.get('id'));
         },
         render: function () {
             var base = this;

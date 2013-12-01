@@ -6,7 +6,7 @@ define([
     './deadline_thumb',
     'datejs',
     './tasks_list',
-    './timeline'
+    '../../Views/timeline'
 ], function ($, _, Backbone, project_show_tpl, DeadlineThumb, datejs, TasksListView, TimelineView) {
     var View = Backbone.View.extend({
         tagName: "div",

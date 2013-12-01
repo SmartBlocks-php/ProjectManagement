@@ -1,22 +1,30 @@
 .project_index {
   position: relative;
-  height: 650px;
-  width: 1000px;
+  height: 100%;
+  width: 100%;
+  max-width: 1000px;
   margin: auto;
-//  background: white;
-//  box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
   padding: 20px;
-  margin-top: 50px;
 
-  > div.pure-g {
-    height: ~"calc(100%)";
 
-    >div {
-      height:100%;
+
+  .project_list_container {
+    height: 66.6666%;
+    .pure-g {
+      height: 100%;
+      .project_list {
+        height: 100%;
+      }
     }
 
-  @import "project_thumb";
   }
+  .timeline_container {
+    height: 33.3333%;
+    position: relative;
+
+  }
+  @import "project_thumb";
+
 
 
 }

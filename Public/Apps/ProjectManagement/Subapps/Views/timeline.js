@@ -2,7 +2,7 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'text!../templates/timeline.html'
+    'text!../Templates/timeline.html'
 ], function ($, _, Backbone, timeline_tpl) {
     var View = Backbone.View.extend({
         tagName: "div",
