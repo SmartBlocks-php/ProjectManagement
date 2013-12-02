@@ -5,6 +5,8 @@
  * This is the model class called File
  */
 namespace ProjectManagement;
+use ReflectionClass;
+
 /**
  * @Entity @Table(name="project_management_deadline")
  */
@@ -120,14 +122,31 @@ class Deadline extends \Model
         $this->project = $project;
     }
 
+    /**
+     * @return \ProjectManagement\Project
+     */
     public function getProject()
     {
         return $this->project;
     }
 
+    /**
+     * @return \TaskManagement\Task[]
+     */
     public function getTasks()
     {
         return $this->tasks;
+    }
+
+    public function updateParticipants($participants) {
+        foreach ($this->getTasks() as $t) {
+            $t->getParticipants()->clear();
+            foreach ($participants as $p) {
+                $t->getParticipants()->add($p);
+                \Model::persist($t);
+            }
+        }
+        \Model::flush();
     }
 
     public function toArray()
@@ -158,5 +177,19 @@ class Deadline extends \Model
         }
 
         return $array;
+    }
+
+    function save() {
+        parent::save();
+        $this->updateParticipants($this->getProject()->getParticipants());
+
+        foreach ($this->getProject()->getParticipants() as $p) {
+            \NodeDiplomat::sendMessage($p->getSessionId(), array(
+                    "block" => "ProjectManagement",
+                    "action" => "saved_deadline",
+                    "deadline" => $this->toArray()
+                )
+            );
+        }
     }
 }

@@ -6,20 +6,16 @@
  * Time: 4:47 PM
  */
 
-
 namespace ProjectManagement\Business;
 
-class Deadlines
-{
-    public static function  createOrUpdate($data)
-    {
+class Deadlines {
+    public static function  createOrUpdate($data) {
         if (isset($data["id"]))
             $deadline = \ProjectManagement\Deadline::find($data["id"]);
         else
             $deadline = null;
 
-        if (!is_object($deadline))
-        {
+        if (!is_object($deadline)) {
             $deadline = new  \ProjectManagement\Deadline();
         }
 
@@ -27,8 +23,7 @@ class Deadlines
 
         $deadline->setName($data["name"]);
         unset($data["name"]);
-        if (isset($data["description"]))
-        {
+        if (isset($data["description"])) {
             $deadline->setDescription($data["description"]);
             unset($data["description"]);
         }
@@ -36,17 +31,22 @@ class Deadlines
         unset($data["owner"]);
         unset($data["id"]);
 
+        if (isset($data["project"])) {
+            $project = \ProjectManagement\Project::find($data["project"]["id"]);
+            if (is_object($project)) {
+                $deadline->setProject($project);
+            }
+        }
+
         //tasks
 
-        if (isset($data["tasks"]) && is_array($data["tasks"]))
-        {
+        if (isset($data["tasks"]) && is_array($data["tasks"])) {
             $deadline->getTasks()->clear();
-            foreach ($data["tasks"] as $task_a)
-            {
-                $task = \TaskManagement\Task::find($task_a["id"]);
-                if (is_object($task))
-                {
-                    $deadline->getTasks()->add($task);
+            foreach ($data["tasks"] as $task_a) {
+                $task = \TaskManagement\Business\Task::createOrUpdate($task_a);
+                if (is_object($task)) {
+                    if (!$deadline->getTasks()->contains($task))
+                        $deadline->getTasks()->add($task);
                 }
             }
         }
@@ -55,35 +55,18 @@ class Deadlines
         $event_data = $data;
         $data_array = $deadline->getData();
 
-        if (is_array($event_data))
-        {
-            foreach ($event_data as $key => $d)
-            {
+        if (is_array($event_data)) {
+            foreach ($event_data as $key => $d) {
                 $data_array[$key] = $d;
             }
-
         }
 
-        if (isset($data["project"]))
-        {
-            $project = \ProjectManagement\Project::find($data["project"]["id"]);
-            if (is_object($project))
-            {
-                $deadline->setProject($project);
-            }
-
-        }
-
-        foreach ($data_array as $key => $d)
-        {
-            if (!isset($event_data[$key]))
-            {
+        foreach ($data_array as $key => $d) {
+            if (!isset($event_data[$key])) {
                 unset($data_array[$key]);
             }
         }
         $deadline->setData($data_array);
-
-
 
         $deadline->save();
 

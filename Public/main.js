@@ -42,6 +42,24 @@ define([
                 }
                 return value;
             });
+
+            /**
+             * This listener updates local data when notified by server.
+             */
+            SmartBlocks.events.on("ws_notification", function (message) {
+                if (message.block == "ProjectManagement") {
+                    if (message.action == "saved_project") {
+                        var project = new SmartBlocks.Blocks.ProjectManagement.Models.Project(message.project);
+                        SmartBlocks.Blocks.ProjectManagement.Data.projects.add(project, {merge: true});
+                    }
+
+                    if (message.action == "saved_deadline") {
+                        var deadline = new SmartBlocks.Blocks.ProjectManagement.Models.Deadline(message.deadline);
+                        SmartBlocks.Blocks.ProjectManagement.Data.deadlines.add(deadline, {merge: true});
+                    }
+                }
+            });
+
         },
         launch_pm: function (app) {
             console.log("launched view");
