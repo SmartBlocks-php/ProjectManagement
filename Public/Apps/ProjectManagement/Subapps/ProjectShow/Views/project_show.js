@@ -105,8 +105,8 @@ define([
                     base.$el.find(".deadline_thumb.selected").removeClass("selected");
                     $(this).addClass("selected");
                     base.events.trigger("selected_deadline", base.selected_deadline);
+                    base.timeline.setTasks(base.selected_deadline.getTasks());
                 }
-                base.timeline.setTasks(base.selected_deadline.getTasks());
 
 
             });

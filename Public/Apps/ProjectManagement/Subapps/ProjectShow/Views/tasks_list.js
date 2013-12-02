@@ -46,15 +46,14 @@ define([
             task.set("name", base.$el.find('.name_input').val());
             task.set('description', '');
             task.set('deadline_id', base.deadline.get('id'));
-            task.save({}, {
+
+            base.deadline.addTask(task);
+            base.deadline.save({}, {
                 success: function () {
-                    base.deadline.addTask(task);
+                    console.log(base.deadline);
                 }
             });
-            SmartBlocks.Blocks.TaskManagement.Data.tasks.add(task);
             base.$el.find('.name_input').val('');
-
-
         },
         registerEvents: function () {
             var base = this;
@@ -69,16 +68,15 @@ define([
             });
 
             SmartBlocks.Blocks.TaskManagement.Data.tasks.on("add", function (task) {
-                if (task.get("deadline_id") && task.get("deadline_id") == base.deadline.get('id')) {
-                    base.renderTasks();
-                }
+                base.renderTasks();
             });
 
-//            SmartBlocks.Blocks.TaskManagement.Data.tasks.on("remove", function (task) {
-//                if (task.get("deadline_id") && task.get("deadline_id") == base.deadline.get('id')) {
-//                    base.renderTasks();
-//                }
-//            });
+            SmartBlocks.Blocks.TaskManagement.Data.tasks.on("remove", function (task) {
+                base.renderTasks();
+            });
+            SmartBlocks.Blocks.TaskManagement.Data.tasks.on("change", function () {
+                base.renderTasks();
+            });
         }
     });
 

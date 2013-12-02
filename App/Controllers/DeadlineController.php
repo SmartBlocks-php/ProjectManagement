@@ -21,7 +21,8 @@ class DeadlineController extends \Controller
         $em = \Model::getEntityManager();
         $qb = $em->createQueryBuilder();
 
-        $qb->select('e')->from('\ProjectManagement\Deadline', 'e')->where('e.owner = :user')
+        $qb->select('e')->from('\ProjectManagement\Deadline', 'e')->leftJoin('e.project', 'p')
+            ->leftJoin('p.participants', 'participant')->where('e.owner = :user OR participant = :user')
             ->setParameter('user', \User::current_user());
 
         $results = $qb->getQuery()->getResult();
@@ -33,70 +34,70 @@ class DeadlineController extends \Controller
         $this->return_json($response);
     }
 
-    private function createOrUpdate($data)
-    {
-        if (isset($data["id"]))
-            $deadline = Deadline::find($data["id"]);
-        else
-            $deadline = null;
-
-        if (!is_object($deadline))
-        {
-            $deadline = new Deadline();
-        }
-
-        $deadline->setOwner(\User::current_user());
-
-        $deadline->setName($data["name"]);
-        unset($data["name"]);
-        if (isset($data["description"]))
-        {
-            $deadline->setDescription($data["description"]);
-            unset($data["description"]);
-        }
-
-        unset($data["owner"]);
-        unset($data["id"]);
-
-        $event_data = $data;
-        $data_array = $deadline->getData();
-
-        if (is_array($event_data))
-        {
-            foreach ($event_data as $key => $d)
-            {
-                $data_array[$key] = $d;
-            }
-
-        }
-
-        foreach ($data_array as $key => $d)
-        {
-            if (!isset($event_data[$key])) {
-                unset($data_array[$key]);
-            }
-        }
-        $deadline->setData($data_array);
-
-        //tasks
-
-        if (isset($data["tasks"]) && is_array($data["tasks"]))
-        {
-            $deadline->getTasks()->clear();
-            foreach ($data["tasks"] as $task_a)
-            {
-                $task = \TaskManagement\Task::find($task_a["id"]);
-                if (is_object($task))
-                {
-                    $deadline->getTasks()->add($task);
-                }
-            }
-        }
-
-        $deadline->save();
-
-        return $deadline->toArray();
-    }
+//    private function createOrUpdate($data)
+//    {
+//        if (isset($data["id"]))
+//            $deadline = Deadline::find($data["id"]);
+//        else
+//            $deadline = null;
+//
+//        if (!is_object($deadline))
+//        {
+//            $deadline = new Deadline();
+//        }
+//
+//        $deadline->setOwner(\User::current_user());
+//
+//        $deadline->setName($data["name"]);
+//        unset($data["name"]);
+//        if (isset($data["description"]))
+//        {
+//            $deadline->setDescription($data["description"]);
+//            unset($data["description"]);
+//        }
+//
+//        unset($data["owner"]);
+//        unset($data["id"]);
+//
+//        $event_data = $data;
+//        $data_array = $deadline->getData();
+//
+//        if (is_array($event_data))
+//        {
+//            foreach ($event_data as $key => $d)
+//            {
+//                $data_array[$key] = $d;
+//            }
+//
+//        }
+//
+//        foreach ($data_array as $key => $d)
+//        {
+//            if (!isset($event_data[$key])) {
+//                unset($data_array[$key]);
+//            }
+//        }
+//        $deadline->setData($data_array);
+//
+//        //tasks
+//
+//        if (isset($data["tasks"]) && is_array($data["tasks"]))
+//        {
+//            $deadline->getTasks()->clear();
+//            foreach ($data["tasks"] as $task_a)
+//            {
+//                $task = \TaskManagement\Task::find($task_a["id"]);
+//                if (is_object($task))
+//                {
+//                    $deadline->getTasks()->add($task);
+//                }
+//            }
+//        }
+//
+//        $deadline->save();
+//
+//        return $deadline->toArray();
+//    }
 
     public function create()
     {
@@ -118,7 +119,7 @@ class DeadlineController extends \Controller
         {
             if ($deadline->getOwner() == \User::current_user())
             {
-                $this->return_json($this->createOrUpdate($data));
+                $this->return_json(\ProjectManagement\Business\Deadlines::createOrUpdate($data)->toArray());
             }
             else
             {

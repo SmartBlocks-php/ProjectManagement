@@ -5,6 +5,8 @@
  * This is the model class called File
  */
 namespace ProjectManagement;
+use ReflectionClass;
+
 /**
  * @Entity @Table(name="project_management_project")
  */
@@ -40,12 +42,17 @@ class Project extends \Model
      */
     private $deadlines;
 
+    /**
+     * @ManyToMany(targetEntity="\User")
+     */
+    private $participants;
 
     public function __construct()
     {
         $this->data = json_encode(array());
         $this->description = "";
         $this->deadlines = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->participants = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function getId()
@@ -103,14 +110,35 @@ class Project extends \Model
         return $this->deadlines;
     }
 
+    /**
+     * @param mixed $participants
+     */
+    public function setParticipants($participants) {
+        $this->participants = $participants;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getParticipants() {
+        return $this->participants;
+    }
+
 
     public function toArray()
     {
+        $participants = array();
+
+        foreach ($this->participants as $participant) {
+            $participants[] = $participant->toArray();
+        }
+
         $array = array(
             "id" => $this->id,
             "name" => $this->name,
             "description" => $this->description,
             "owner" => $this->getOwner() != null ? $this->getOwner()->toArray() : null,
+
         );
 
         $data = $this->getData();
@@ -121,7 +149,21 @@ class Project extends \Model
                 $array[$key] = $value;
             }
         }
+        $array["participants"] = $participants;
 
         return $array;
+    }
+
+    function save() {
+        parent::save();
+
+        foreach ($this->getParticipants() as $p) {
+            \NodeDiplomat::sendMessage($p->getSessionId(), array(
+                    "block" => "ProjectManagement",
+                    "action" => "saved_project",
+                    "project" => $this->toArray()
+                )
+            );
+        }
     }
 }
