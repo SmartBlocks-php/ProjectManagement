@@ -45,18 +45,19 @@
     }
 
     > div {
-      height: 50%;
+
       > div {
-        background: rgba(255,255,255,0.5);
+
         padding: 10px;
         height: ~"calc(100% - 10px)";
-        margin: 5px;
       }
     }
   }
 
   .project_dashboard {
     height: ~"calc(100% - 30px)";
+
+    background: none;
   }
 
   .info {
@@ -69,6 +70,25 @@
     padding-bottom: 5px;
     padding-left: 5px;
   }
+
+  .project_dashboard_container {
+    height: 50%;
+
+  }
+  .tasks_container {
+    height: 50%;
+    background: rgba(255,255,255, 0.3);
+    width: 33.3333%;
+    float: left;
+  }
+  .deadlines_container {
+    height: 50%;
+    background: rgba(255,255,255, 0.3);
+    margin-right: 5px;
+    width: ~"calc(66.6666% - 5px)";
+    float: left;
+  }
+
   @import "./deadline_thumb";
   @import "./timeline";
 }

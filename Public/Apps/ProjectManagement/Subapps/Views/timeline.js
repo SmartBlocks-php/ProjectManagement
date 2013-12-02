@@ -107,10 +107,11 @@ define([
                 ctx.fillText(text, (i * rect_width + i * margin_width) + (rect_width - tmes.width) / 2, canvas.height);
             }
 
-
-            requestAnimationFrame(function () {
-                base.update();
-            }, base.canvas);
+            if (base.$el.width() > 0) {
+                requestAnimationFrame(function () {
+                    base.update();
+                }, base.canvas);
+            }
         },
         setTasks: function (tasks) {
             var base = this;

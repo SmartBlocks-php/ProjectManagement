@@ -15,9 +15,17 @@
             "model_name": "Deadline",
             "collection_name": "Deadlines",
             "plural": "deadlines",
-            "ws_origin": "/ProjectManagement/Deadline",
+            "ws_origin": "/ProjectManagement/Deadlines",
             "model_location": "ProjectManagement/Models/Deadline",
             "collection_location": "ProjectManagement/Collections/Deadlines"
+        },
+        {
+            "model_name": "ProjectRequest",
+            "collection_name": "ProjectRequests",
+            "plural": "project_requests",
+            "ws_origin": "/ProjectManagement/ProjectRequests",
+            "model_location": "ProjectManagement/Models/ProjectRequest",
+            "collection_location": "ProjectManagement/Collections/ProjectRequests"
         }
     ],
     "apps": [

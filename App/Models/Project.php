@@ -40,6 +40,10 @@ class Project extends \Model
      */
     private $deadlines;
 
+    /**
+     * @ManyToMany(targetEntity="\User")
+     */
+    private $participants;
 
     public function __construct()
     {
