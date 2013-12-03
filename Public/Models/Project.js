@@ -26,6 +26,28 @@ define([
             }
             return tasks;
         },
+        addParticipant: function (user) {
+            var base = this;
+
+            if (!base.get('participants')) {
+                base.set('participants', []);
+            }
+
+            base.get('participants').push(user.attributes);
+        },
+        removeParticipant: function (user) {
+            var base = this;
+            var new_array = [];
+
+            var participants = base.get('participants');
+            for (var k in participants) {
+                var u_array = participants[k];
+                if (user.get('id') != u_array.id) {
+                    new_array.push(u_array);
+                }
+            }
+            base.set('participants', new_array);
+        },
         save: function (attributes, options) {
             attributes || (attributes = {});
             attributes['headers'] = {'If-Match': this.get("rev")};

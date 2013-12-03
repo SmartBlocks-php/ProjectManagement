@@ -6,8 +6,9 @@ define([
     './deadline_thumb',
     'datejs',
     './tasks_list',
-    '../../Views/timeline'
-], function ($, _, Backbone, project_show_tpl, DeadlineThumb, datejs, TasksListView, TimelineView) {
+    '../../Views/timeline',
+    './users_popup'
+], function ($, _, Backbone, project_show_tpl, DeadlineThumb, datejs, TasksListView, TimelineView, UsersPopup) {
     var View = Backbone.View.extend({
         tagName: "div",
         className: "project_show",
@@ -129,6 +130,13 @@ define([
             });
 
 
+            base.$el.delegate(".manage_participants_button", "click", function () {
+                var users_popup = new UsersPopup({
+                    model: base.project
+                });
+                base.$el.append(users_popup.$el);
+                users_popup.init();
+            });
         }
     });
 
