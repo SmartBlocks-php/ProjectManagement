@@ -8,6 +8,11 @@
 //  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
   padding: 20px;
 
+  em {
+    font-style: italic;
+    color: #646464;
+  }
+
 
   .project_name {
     height: 30px;
@@ -21,6 +26,7 @@
     float: right;
   }
   .description_container  {
+    margin-left: 10px;
     float: left;
     font-style: italic;
     color: gray;
@@ -45,39 +51,42 @@
     }
 
     > div {
-
       > div {
-
-        padding: 10px;
-        height: ~"calc(100% - 10px)";
+        height: ~"calc(100%)";
       }
     }
   }
 
   .project_dashboard {
-    height: ~"calc(80% - 30px)";
+    height: ~"calc(100% - 90px)";
 
     background: none;
   }
 
-  .participants_list {
-    height: ~"calc(10%)";
-    padding: 10px;
-    .user_thumb {
-      width: 100px;
-      padding: 5px;
-      text-align: center;
-      margin: 1px;
-      background: rgba(255,255,255,0.3);
-      cursor: pointer;
-      float: left;
-      .name {
-        display: none;
-      }
-      &:hover {
-        background: rgba(255,255,255,0.5);
+  .participants_list_container {
+    margin-top: 15px;
+    height: 45px;
+    .participants_list {
+      .user_thumb {
+        i {
+          display: none;
+        }
+        width: 100px;
+        padding: 5px;
+        text-align: center;
+        margin: 1px;
+        background: rgba(255,255,255,0.3);
+        cursor: pointer;
+        float: left;
+        .name {
+          display: none;
+        }
+        &:hover {
+          background: rgba(255,255,255,0.5);
+        }
       }
     }
+
   }
 
   .info {
