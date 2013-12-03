@@ -106,10 +106,21 @@ define([
                     base.$el.find(".deadline_thumb.selected").removeClass("selected");
                     $(this).addClass("selected");
                     base.events.trigger("selected_deadline", base.selected_deadline);
-                    base.timeline.setTasks(base.selected_deadline.getTasks());
+
                 }
 
 
+            });
+
+            base.$el.delegate('.deadline_thumb', 'mouseover', function () {
+                var id = $(this).attr("data-id");
+                var deadline = SmartBlocks.Blocks.ProjectManagement.Data.deadlines.get(id);
+                if (deadline)
+                    base.timeline.setTasks(deadline.getTasks());
+            });
+
+            base.$el.delegate('.deadline_thumb', 'mouseout', function () {
+                base.timeline.setTasks(base.model.getTasks());
             });
 
             base.events.on('selected_deadline', function () {
