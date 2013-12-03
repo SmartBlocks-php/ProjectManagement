@@ -6,10 +6,11 @@
             <%= project.get('description') %>
         </span>
     </div>
-    <a href="#ProjectManagement" class="back_to_index_button pure-button">Back to index</a>
+
     <% if (project.get('owner').id == SmartBlocks.current_user.get('id')) { %>
     <div class="actions">
         <a href="javascript:void(0);" class="manage_participants_button"><i class="fa fa-user"></i> Manage participants</a>
+        <a href="#ProjectManagement" class="back_to_index_button"><i class="fa fa-chevron-circle-left"></i> Back to index</a>
     </div>
     <% } %>
 </div>

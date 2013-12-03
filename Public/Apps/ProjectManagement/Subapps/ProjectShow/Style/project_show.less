@@ -22,9 +22,6 @@
 
   }
 
-  .back_to_index_button {
-    float: right;
-  }
   .description_container  {
     margin-left: 10px;
     float: left;
@@ -75,14 +72,14 @@
         padding: 5px;
         text-align: center;
         margin: 1px;
-        background: rgba(255,255,255,0.3);
+        background: rgba(255,255,255,0.5);
         cursor: pointer;
         float: left;
         .name {
           display: none;
         }
         &:hover {
-          background: rgba(255,255,255,0.5);
+          background: rgba(255,255,255,1);
         }
       }
     }
@@ -106,13 +103,13 @@
   }
   .tasks_container {
     height: 50%;
-    background: rgba(255,255,255, 0.3);
+    background: rgba(255,255,255, 0.5);
     width: 33.3333%;
     float: left;
   }
   .deadlines_container {
     height: 50%;
-    background: rgba(255,255,255, 0.3);
+    background: rgba(255,255,255, 0.5);
     margin-right: 5px;
     width: ~"calc(66.6666% - 5px)";
     float: left;
@@ -122,8 +119,11 @@
   @import "./timeline";
 
   .actions {
+    a {
+      margin-left: 10px;
+    }
     float: right;
-    padding: 5px;
+
   }
 }
 
