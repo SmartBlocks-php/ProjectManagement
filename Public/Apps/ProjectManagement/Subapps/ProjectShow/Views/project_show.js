@@ -7,8 +7,9 @@ define([
     'datejs',
     './tasks_list',
     '../../Views/timeline',
-    './users_popup'
-], function ($, _, Backbone, project_show_tpl, DeadlineThumb, datejs, TasksListView, TimelineView, UsersPopup) {
+    './users_popup',
+    './user_thumb'
+], function ($, _, Backbone, project_show_tpl, DeadlineThumb, datejs, TasksListView, TimelineView, UsersPopup, UserThumb) {
     var View = Backbone.View.extend({
         tagName: "div",
         className: "project_show",
@@ -37,6 +38,8 @@ define([
             base.$el.find(".project_dashboard").html(timeline.$el);
             timeline.init(base.project.getTasks());
             base.timeline = timeline;
+
+            base.renderUsers();
         },
         renderDeadlines: function () {
             var base = this;
@@ -47,6 +50,24 @@ define([
                 base.$el.find('.deadlines').append(deadline_thumb.$el);
                 deadline_thumb.init();
             }
+
+        },
+        renderUsers: function () {
+            var base = this;
+            var users = base.model.getAllParticipants();
+            base.$el.find(".participants_list").html("");
+
+            for (var k in users.models) {
+                var user = users.models[k];
+
+                var user_thumb = new UserThumb({
+                    model: user
+                });
+                base.$el.find(".participants_list").append(user_thumb.$el);
+
+                user_thumb.init();
+            }
+            base.$el.find(".participants_list").append('<div class="clearer"></div>');
         },
         registerEvents: function () {
             var base = this;
@@ -134,6 +155,30 @@ define([
                 base.timeline.setTasks(base.model.getTasks());
             });
 
+            base.$el.delegate('.user_thumb', 'mouseover', function () {
+                var id = $(this).attr("data-id");
+                var user = SmartBlocks.Blocks.Kernel.Data.users.get(id);
+                if (user) {
+                    var tasks = new SmartBlocks.Blocks.TaskManagement.Collections.Tasks(base.model.getTasks());
+                    var filtered = tasks.filter(function (task) {
+                        var events = task.getAllEvents();
+                        for (var k in events) {
+                            var event = events[k];
+                            if (event.get('owner').id == user.get('id')) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    });
+                    base.timeline.setTasks(filtered);
+                }
+
+            });
+
+            base.$el.delegate('.user_thumb', 'mouseout', function () {
+                base.timeline.setTasks(base.model.getTasks());
+            });
+
             base.events.on('selected_deadline', function () {
                 if (base.selected_deadline) {
                     var tasks_list_view = new TasksListView({model: base.selected_deadline});
@@ -159,6 +204,8 @@ define([
                 base.$el.append(users_popup.$el);
                 users_popup.init();
             });
+
+
         }
     });
 

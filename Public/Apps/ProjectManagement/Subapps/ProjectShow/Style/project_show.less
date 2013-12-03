@@ -55,9 +55,29 @@
   }
 
   .project_dashboard {
-    height: ~"calc(100% - 30px)";
+    height: ~"calc(80% - 30px)";
 
     background: none;
+  }
+
+  .participants_list {
+    height: ~"calc(10%)";
+    padding: 10px;
+    .user_thumb {
+      width: 100px;
+      padding: 5px;
+      text-align: center;
+      margin: 1px;
+      background: rgba(255,255,255,0.3);
+      cursor: pointer;
+      float: left;
+      .name {
+        display: none;
+      }
+      &:hover {
+        background: rgba(255,255,255,0.5);
+      }
+    }
   }
 
   .info {

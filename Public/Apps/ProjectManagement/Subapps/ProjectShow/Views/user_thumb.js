@@ -13,7 +13,7 @@ define([
         },
         init: function () {
             var base = this;
-
+            base.$el.attr('data-id', base.model.get('id'));
             base.render();
             base.registerEvents();
         },

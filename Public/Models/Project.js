@@ -35,6 +35,24 @@ define([
 
             base.get('participants').push(user.attributes);
         },
+        getAllParticipants: function () {
+            var base = this;
+            var parray = base.get("participants");
+            var participants = new SmartBlocks.Blocks.Kernel.Collections.Users();
+
+            var owner = SmartBlocks.Blocks.Kernel.Data.users.get(base.get('owner').id);
+            if (owner) {
+                participants.add(owner);
+            }
+            for (var k in parray){
+                var user = SmartBlocks.Blocks.Kernel.Data.users.get(parray[k].id);
+                if (user) {
+                    participants.add(user);
+                }
+            }
+
+            return participants;
+        },
         removeParticipant: function (user) {
             var base = this;
             var new_array = [];
