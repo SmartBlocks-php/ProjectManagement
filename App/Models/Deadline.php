@@ -145,6 +145,7 @@ class Deadline extends \Model
                 $t->getParticipants()->add($p);
                 \Model::persist($t);
             }
+            $t->getParticipants()->add($this->getOwner());
         }
         \Model::flush();
     }
@@ -184,6 +185,14 @@ class Deadline extends \Model
         $this->updateParticipants($this->getProject()->getParticipants());
 
         foreach ($this->getProject()->getParticipants() as $p) {
+            foreach ($this->getTasks() as $t) {
+                \NodeDiplomat::sendMessage($p->getSessionId(), array(
+                        "block" => "TaskManagement",
+                        "action" => "saved_task",
+                        "task" => $t->toArray()
+                    )
+                );
+            }
             \NodeDiplomat::sendMessage($p->getSessionId(), array(
                     "block" => "ProjectManagement",
                     "action" => "saved_deadline",
@@ -191,5 +200,19 @@ class Deadline extends \Model
                 )
             );
         }
+        foreach ($this->getTasks() as $t) {
+            \NodeDiplomat::sendMessage($this->getOwner()->getSessionId(), array(
+                    "block" => "TaskManagement",
+                    "action" => "saved_task",
+                    "task" => $t->toArray()
+                )
+            );
+        }
+        \NodeDiplomat::sendMessage($this->getOwner()->getSessionId(), array(
+                "block" => "ProjectManagement",
+                "action" => "saved_deadline",
+                "deadline" => $this->toArray()
+            )
+        );
     }
 }

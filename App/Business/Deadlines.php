@@ -17,9 +17,10 @@ class Deadlines {
 
         if (!is_object($deadline)) {
             $deadline = new  \ProjectManagement\Deadline();
+            $deadline->setOwner(\User::current_user());
         }
 
-        $deadline->setOwner(\User::current_user());
+
 
         $deadline->setName($data["name"]);
         unset($data["name"]);

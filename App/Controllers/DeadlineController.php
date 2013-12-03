@@ -34,6 +34,20 @@ class DeadlineController extends \Controller
         $this->return_json($response);
     }
 
+    public function show($params = array()) {
+
+        $deadline = \ProjectManagement\Deadline::find($params["id"]);
+        if (is_object($deadline)) {
+            if ($deadline->getOwner() == \User::current_user() || $deadline->getProject()->getParticipants()->contains(\User::current_user())) {
+                $this->return_json($deadline->toArray());
+            } else {
+                $this->json_error("This deadline does not exist", 404);
+            }
+        } else {
+            $this->json_error("This deadline does not exist", 404);
+        }
+    }
+
 //    private function createOrUpdate($data)
 //    {
 //        if (isset($data["id"]))
@@ -117,7 +131,7 @@ class DeadlineController extends \Controller
             $deadline = null;
         if (is_object($deadline))
         {
-            if ($deadline->getOwner() == \User::current_user())
+            if ($deadline->getOwner() == \User::current_user() || $deadline->getProject()->getParticipants()->contains(\User::current_user()))
             {
                 $this->return_json(\ProjectManagement\Business\Deadlines::createOrUpdate($data)->toArray());
             }

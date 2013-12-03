@@ -164,6 +164,22 @@ class Project extends \Model
                     "project" => $this->toArray()
                 )
             );
+            foreach ($this->getDeadlines() as $d) {
+                \NodeDiplomat::sendMessage($p->getSessionId(), array(
+                        "block" => "ProjectManagement",
+                        "action" => "saved_deadline",
+                        "deadline" => $d->toArray()
+                    )
+                );
+                foreach ($d->getTasks() as $t) {
+                    \NodeDiplomat::sendMessage($p->getSessionId(), array(
+                            "block" => "TaskManagement",
+                            "action" => "saved_task",
+                            "task" => $t->toArray()
+                        )
+                    );
+                }
+            }
         }
     }
 }

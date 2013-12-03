@@ -37,7 +37,7 @@ define([
                 base.$el.find(".tasks").append(task_view.$el);
                 task_view.init();
             }
-
+            console.log(tasks, base.deadline.get('tasks'));
         },
         createTask: function () {
             var base = this;
@@ -47,12 +47,10 @@ define([
             task.set('description', '');
             task.set('deadline_id', base.deadline.get('id'));
 
-            base.deadline.addTask(task);
-            base.deadline.save({}, {
-                success: function () {
-                    console.log(base.deadline);
-                }
+            base.deadline.addTask(task, function () {
+                base.renderTasks();
             });
+
             base.$el.find('.name_input').val('');
         },
         registerEvents: function () {
@@ -75,6 +73,10 @@ define([
                 base.renderTasks();
             });
             SmartBlocks.Blocks.TaskManagement.Data.tasks.on("change", function () {
+                base.renderTasks();
+            });
+
+            base.deadline.on("change", function () {
                 base.renderTasks();
             });
         }

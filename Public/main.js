@@ -55,7 +55,12 @@ define([
 
                     if (message.action == "saved_deadline") {
                         var deadline = new SmartBlocks.Blocks.ProjectManagement.Models.Deadline(message.deadline);
-                        SmartBlocks.Blocks.ProjectManagement.Data.deadlines.add(deadline, {merge: true});
+                        deadline.fetch({
+                            success: function () {
+                                SmartBlocks.Blocks.ProjectManagement.Data.deadlines.add(deadline, {merge: true});
+                            }
+                        });
+
                     }
                 }
             });
