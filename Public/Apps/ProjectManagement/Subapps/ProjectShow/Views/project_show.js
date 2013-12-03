@@ -123,6 +123,17 @@ define([
                 base.timeline.setTasks(base.model.getTasks());
             });
 
+            base.$el.delegate('.task', 'mouseover', function () {
+                var id = $(this).attr("data-id");
+                var task = SmartBlocks.Blocks.TaskManagement.Data.tasks.get(id);
+                if (task)
+                    base.timeline.setTasks([task]);
+            });
+
+            base.$el.delegate('.task', 'mouseout', function () {
+                base.timeline.setTasks(base.model.getTasks());
+            });
+
             base.events.on('selected_deadline', function () {
                 if (base.selected_deadline) {
                     var tasks_list_view = new TasksListView({model: base.selected_deadline});
