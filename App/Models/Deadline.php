@@ -201,18 +201,54 @@ class Deadline extends \Model
             );
         }
         foreach ($this->getTasks() as $t) {
-            \NodeDiplomat::sendMessage($this->getOwner()->getSessionId(), array(
+            \NodeDiplomat::sendMessage($this->getProject()->getOwner()->getSessionId(), array(
                     "block" => "TaskManagement",
                     "action" => "saved_task",
                     "task" => $t->toArray()
                 )
             );
         }
-        \NodeDiplomat::sendMessage($this->getOwner()->getSessionId(), array(
+        \NodeDiplomat::sendMessage($this->getProject()->getOwner()->getSessionId(), array(
                 "block" => "ProjectManagement",
                 "action" => "saved_deadline",
                 "deadline" => $this->toArray()
             )
         );
+    }
+
+    function delete() {
+
+        foreach ($this->getProject()->getParticipants() as $p) {
+            foreach ($this->getTasks() as $t) {
+                \NodeDiplomat::sendMessage($p->getSessionId(), array(
+                        "block" => "TaskManagement",
+                        "action" => "deleted_task",
+                        "task" => $t->toArray()
+                    )
+                );
+            }
+            \NodeDiplomat::sendMessage($p->getSessionId(), array(
+                    "block" => "ProjectManagement",
+                    "action" => "deleted_deadline",
+                    "deadline" => $this->toArray()
+                )
+            );
+        }
+        foreach ($this->getTasks() as $t) {
+            \NodeDiplomat::sendMessage($this->getProject()->getOwner()->getSessionId(), array(
+                    "block" => "TaskManagement",
+                    "action" => "deleted_task",
+                    "task" => $t->toArray()
+                )
+            );
+        }
+        \NodeDiplomat::sendMessage($this->getProject()->getOwner()->getSessionId(), array(
+                "block" => "ProjectManagement",
+                "action" => "deleted_deadline",
+                "deadline" => $this->toArray()
+            )
+        );
+
+        parent::delete();
     }
 }

@@ -8,27 +8,22 @@
 
 namespace ProjectManagement;
 
-class DeadlineController extends \Controller
-{
-    public function before_filter()
-    {
+class DeadlineController extends \Controller {
+    public function before_filter() {
         \User::restrict();
     }
 
-
-    public function index()
-    {
+    public function index() {
         $em = \Model::getEntityManager();
         $qb = $em->createQueryBuilder();
 
         $qb->select('e')->from('\ProjectManagement\Deadline', 'e')->leftJoin('e.project', 'p')
-            ->leftJoin('p.participants', 'participant')->where('e.owner = :user OR participant = :user')
-            ->setParameter('user', \User::current_user());
+           ->leftJoin('p.participants', 'participant')->where('e.owner = :user OR p.owner = :user OR participant = :user')
+           ->setParameter('user', \User::current_user());
 
         $results = $qb->getQuery()->getResult();
         $response = array();
-        foreach ($results as $result)
-        {
+        foreach ($results as $result) {
             $response[] = $result->toArray();
         }
         $this->return_json($response);
@@ -38,12 +33,14 @@ class DeadlineController extends \Controller
 
         $deadline = \ProjectManagement\Deadline::find($params["id"]);
         if (is_object($deadline)) {
-            if ($deadline->getOwner() == \User::current_user() || $deadline->getProject()->getParticipants()->contains(\User::current_user())) {
+            if ($deadline->getOwner() == \User::current_user() || $deadline->getProject()->getOwner() == \User::current_user() || $deadline->getProject()->getParticipants()->contains(\User::current_user())) {
                 $this->return_json($deadline->toArray());
-            } else {
+            }
+            else {
                 $this->json_error("This deadline does not exist", 404);
             }
-        } else {
+        }
+        else {
             $this->json_error("This deadline does not exist", 404);
         }
     }
@@ -113,14 +110,12 @@ class DeadlineController extends \Controller
 //        return $deadline->toArray();
 //    }
 
-    public function create()
-    {
+    public function create() {
         $data = $this->getRequestData();
         $this->return_json(\ProjectManagement\Business\Deadlines::createOrUpdate($data)->toArray());
     }
 
-    public function update($data = array())
-    {
+    public function update($data = array()) {
 
         $id = $data["id"];
         $data = $this->getRequestData();
@@ -129,43 +124,34 @@ class DeadlineController extends \Controller
             $deadline = Deadline::find($data["id"]);
         else
             $deadline = null;
-        if (is_object($deadline))
-        {
-            if ($deadline->getOwner() == \User::current_user() || $deadline->getProject()->getParticipants()->contains(\User::current_user()))
-            {
+        if (is_object($deadline)) {
+            if ($deadline->getOwner() == \User::current_user() || $deadline->getProject()->getOwner() == \User::current_user() || $deadline->getProject()->getParticipants()->contains(\User::current_user())) {
+
                 $this->return_json(\ProjectManagement\Business\Deadlines::createOrUpdate($data)->toArray());
             }
-            else
-            {
+            else {
                 $this->json_error("This deadline does not exist", 404);
             }
         }
-        else
-        {
+        else {
             $this->json_error("This deadline does not exist", 404);
         }
     }
 
-
-    public function destroy($data = array())
-    {
+    public
+    function destroy($data = array()) {
         $deadline = Deadline::find($data["id"]);
-        if (is_object($deadline))
-        {
-            if ($deadline->getOwner() == \User::current_user())
-            {
+        if (is_object($deadline)) {
+            if ($deadline->getOwner() == \User::current_user() || $deadline->getProject()->getOwner() == \User::current_user() || $deadline->getProject()->getParticipants()->contains(\User::current_user())) {
                 $deadline->delete();
                 $this->json_message("Successfully deleted deadline");
             }
-            else
-            {
+            else {
                 $this->json_error("This deadline does not exist", 404);
             }
         }
-        else
-        {
+        else {
             $this->json_error("This event does not exist", 404);
         }
     }
-
 }

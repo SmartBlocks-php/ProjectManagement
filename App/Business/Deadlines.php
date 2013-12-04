@@ -36,6 +36,7 @@ class Deadlines {
             $project = \ProjectManagement\Project::find($data["project"]["id"]);
             if (is_object($project)) {
                 $deadline->setProject($project);
+                $deadline->setOwner($project->getOwner());
             }
         }
 

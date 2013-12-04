@@ -62,6 +62,14 @@ define([
                         });
 
                     }
+
+                    if (message.action == "deleted_project") {
+                        SmartBlocks.Blocks.ProjectManagement.Data.projects.remove(message.project.id);
+                    }
+
+                    if (message.action == "deleted_deadline") {
+                        SmartBlocks.Blocks.ProjectManagement.Data.deadlines.remove(message.deadline.id);
+                    }
                 }
             });
 
