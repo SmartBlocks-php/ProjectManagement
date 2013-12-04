@@ -25,17 +25,14 @@
           font-weight: bold;
           color: #727272;
           .icon {
-            display: block;
-            float: right;
-            width: 15px;
-            height: 15px;
-            overflow: hidden;
-            background: url(/ProjectManagement/Resources/pencil.png) 0 0;
+            display: none;
 
+            overflow: hidden;
+            color: #727272;
           }
           &:hover {
             .icon {
-              background: no-repeat url(/ProjectManagement/Resources/pencil.png) 0 -15px;
+              display: inline;
             }
           }
 
@@ -43,6 +40,9 @@
       }
       .name_edition {
         display: none;
+        input {
+          width: 100%;
+        }
       }
       &.edition {
         .name_display {
@@ -89,7 +89,7 @@
   &.plus {
     font-size: 50px;
     text-align: center;
-    line-height: 150px;
+    line-height: 120px;
     text-decoration: none;
     font-weight: bold;
     color: darkgray;

@@ -93,7 +93,11 @@ define([
             if (base.page_size > 0) {
                 base.renderProjects();
             }
+            base.$el.find(".project_list").css("width", "-webkit-fit-content");
+            base.$el.find(".project_list").css("width", "-moz-fit-content");
+            base.$el.find(".project_list").css("width", "fit-content");
             base.$el.find(".project_list").css("width", available_cols * 240);
+            base.$el.find(".project_list").css("margin", "auto");
             console.log(base.page_size);
         },
         registerEvents: function () {
