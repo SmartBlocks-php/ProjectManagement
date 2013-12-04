@@ -203,6 +203,9 @@ define([
                 });
                 base.$el.append(users_popup.$el);
                 users_popup.init();
+                users_popup.on("changed_users", function () {
+                    base.renderUsers();
+                });
             });
 
 

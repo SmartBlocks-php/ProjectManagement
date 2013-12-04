@@ -10,6 +10,7 @@ define([
         className: "users_popup",
         initialize: function () {
             var base = this;
+            base.events = $.extend({}, Backbone.Events);
         },
         init: function () {
             var base = this;
@@ -89,6 +90,7 @@ define([
 
             base.$el.delegate('.save_button', 'click', function () {
                 base.model.save();
+                base.events.trigger("changed_users");
                 base.$el.remove();
             });
         }
