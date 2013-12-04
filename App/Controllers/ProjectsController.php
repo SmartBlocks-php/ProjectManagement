@@ -70,20 +70,56 @@ class ProjectsController extends \Controller {
         unset($data["deadlines"]);
 
         if (isset ($data["participants"]) && is_array($data["participants"])) {
+            $array = $project->getParticipants()->toArray();
+
             $project->getParticipants()->clear();
             foreach ($data["participants"] as $parray) {
                 if (isset($parray["id"])) {
                     $user = \User::find($parray["id"]);
                     $project->getParticipants()->add($user);
-
                 }
-
             }
             foreach ($project->getDeadlines() as $deadline) {
                 $deadline->updateParticipants($project->getParticipants());
             }
+            echo "\nHEY1\n";
+            $events_to_delete = array();
+            foreach ($array as $old) {
+                echo "\nHEY2\n";
+                if (!$project->getParticipants()->contains($old)) {
+                    foreach ($project->getDeadlines() as $d) {
+                        echo "\nHEY3\n";
+                        foreach ($d->getTasks() as $t) {
+                            echo "\nHEY4\n";
+                            if ($t->getParticipants()->contains($old))
+                                $t->getParticipants()->remove($old);
+                            foreach ($t->getEvents() as $e) {
+                                echo "\nHEY5\n";
+                                if (is_object($old) && is_object($e->getOwner()))
+                                    if ($e->getOwner()->getId() == $old->getId()) {
+
+                                        $events_to_delete[] = $e->getid();
+                                    }
+                            }
+                            $t->save();
+                            \NodeDiplomat::sendMessage($old, array(
+                                    "block" => "TaskManagement",
+                                    "action" => "deleted_task",
+                                    "task" => $t->toArray()
+                                )
+                            );
+                        }
+                    }
+                }
+            }
+
+            foreach ($events_to_delete as $id) {
+                $event = \Time\Event::find($id);
+                $event->delete();
+            }
+
+            unset($data["participants"]);
         }
-        unset($data["participants"]);
 
         $event_data = $data;
         $data_array = $project->getData();
@@ -103,6 +139,7 @@ class ProjectsController extends \Controller {
 
         $project->save();
 
+        ob_clean();
         return $project->toArray();
     }
 
