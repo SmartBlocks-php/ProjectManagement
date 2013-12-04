@@ -86,13 +86,14 @@ define([
         },
         updateListSize: function () {
             var base = this;
+            base.$el.find(".project_list").css("width", "auto");
             var available_cols = Math.floor(base.$el.find(".project_list").width() / 240);
             var available_rows = Math.floor(base.$el.find(".project_list").height() / 130);
             base.page_size = available_cols * available_rows - 1;
             if (base.page_size > 0) {
                 base.renderProjects();
             }
-
+            base.$el.find(".project_list").css("width", available_cols * 240);
             console.log(base.page_size);
         },
         registerEvents: function () {
